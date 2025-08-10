@@ -1,0 +1,6 @@
+@TwinCoreTestTask_HostAddress = http://localhost:5212
+
+GET {{TwinCoreTestTask_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
