@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using TwinCoreTestTask.Core.Utils;
+using TwinCoreTestTask.DataBase.Contexts;
 
 namespace TwinCoreTestTask.Utils;
 
-public static class SetupAuthentication
+public static class SetupAuthExtensions
 {
     public static async Task ConfigureAuthAsync(this IServiceCollection services)
     {
@@ -11,7 +13,7 @@ public static class SetupAuthentication
 
         services.AddDefaultIdentity<IdentityUser>()
             .AddRoles<IdentityRole>()
-            // .AddEntityFrameworkStores<ApplicationContext>()
+            .AddEntityFrameworkStores<TwinCoreDbContext>()
             .AddDefaultTokenProviders();
 
         await CreateRolesAsync(services
@@ -21,9 +23,9 @@ public static class SetupAuthentication
 
     public static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
     {
-        if (!await roleManager.RoleExistsAsync(Roles.Admin))
+        if (!await roleManager.RoleExistsAsync(RolesStrings.Admin))
         {
-            await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+            await roleManager.CreateAsync(new IdentityRole(RolesStrings.Admin));
         }
     }
 }

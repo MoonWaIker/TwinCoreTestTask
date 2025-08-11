@@ -1,4 +1,7 @@
 using TwinCoreTestTask.Utils;
+using TwinCoreTestTask.DataBase.Utils;
+using TwinCoreTestTask.Core.Utils;
+using TwinCoreTestTask.Infrastructure.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCustomEqualityComparers();
+builder.Services.AddDbContext();
+builder.Services.AddServices();
 
 await builder.Services.ConfigureAuthAsync();
 
