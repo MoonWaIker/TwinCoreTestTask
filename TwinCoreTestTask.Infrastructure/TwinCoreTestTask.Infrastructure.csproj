@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwinCoreTestTask.Core\TwinCoreTestTask.Core.csproj" />
+    <ProjectReference Include="..\TwinCoreTestTask.DataBase\TwinCoreTestTask.DataBase.csproj" />
   </ItemGroup>
 
 </Project>
