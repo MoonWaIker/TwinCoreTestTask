@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TwinCoreTestTask.Core.Utils;
 
 namespace TwinCoreTestTask.Controllers;
 
 [ApiController]
-[Authorize(Roles = RolesStrings.Admin)]
+// TODO Assign role
 [Route(_route)]
 public class AdminController : ControllerBase
 {

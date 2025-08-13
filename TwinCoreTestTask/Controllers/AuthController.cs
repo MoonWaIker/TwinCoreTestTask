@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TwinCoreTestTask.Infrastructure.DTOs;
+using TwinCoreTestTask.Infrastructure.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 using TwinCoreTestTask.Utils;
 
@@ -13,6 +13,21 @@ namespace TwinCoreTestTask.Controllers;
 public class AuthController(ILoginService loginService) : ControllerBase
 {
     private const string _route = "api/[controller]";
+    private const string _registerRoute = "{token:guid}";
+
+    [AllowAnonymous]
+    [HttpPost(_registerRoute)]
+    public IActionResult Register(Guid token, [FromBody] UserRegister credentials)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        loginService.Register(token, credentials);
+
+        return Ok();
+    }
 
     [AllowAnonymous]
     [HttpPost]

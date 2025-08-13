@@ -1,6 +1,5 @@
 using TwinCoreTestTask.Utils;
 using TwinCoreTestTask.DataBase.Utils;
-using TwinCoreTestTask.Core.Utils;
 using TwinCoreTestTask.Infrastructure.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,11 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCustomEqualityComparers();
 builder.Services.AddDbContext();
 builder.Services.AddServices();
 
-await builder.Services.ConfigureAuthAsync();
+builder.Services.ConfigureAuth();
 
 var app = builder.Build();
 
