@@ -15,6 +15,7 @@ builder.Services.AddDbContext();
 builder.Services.AddServices();
 
 builder.Services.ConfigureAuth();
+builder.Services.ConfigureBruteForceProtection();
 
 var app = builder.Build();
 

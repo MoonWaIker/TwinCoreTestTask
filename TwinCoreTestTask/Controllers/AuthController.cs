@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NoBrute;
 using TwinCoreTestTask.Infrastructure.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 using TwinCoreTestTask.Utils;
@@ -15,6 +16,7 @@ public class AuthController(ILoginService loginService) : ControllerBase
     private const string _route = "api/[controller]";
     private const string _registerRoute = "{token:guid}";
 
+    [NoBrute]
     [AllowAnonymous]
     [HttpPost(_registerRoute)]
     public IActionResult Register(Guid token, [FromBody] UserRegister credentials)
@@ -29,6 +31,7 @@ public class AuthController(ILoginService loginService) : ControllerBase
         return Ok();
     }
 
+    [NoBrute]
     [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] UserCredentials credentials)
