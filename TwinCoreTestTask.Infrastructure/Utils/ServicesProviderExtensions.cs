@@ -9,8 +9,11 @@ public static class ServicesProviderExtensions
 {
     public static void AddServices(this IServiceCollection services)
     {
+        services.AddScoped<IRecordService, RecordService>();
         services.AddScoped<ILoginService, LoginService>();
         services.AddScoped<TimeProvider>();
         services.AddScoped<IPasswordHasher<IdentityUser>, PasswordHasher<IdentityUser>>();
+
+        services.AddAutoMapperServices();
     }
 }
