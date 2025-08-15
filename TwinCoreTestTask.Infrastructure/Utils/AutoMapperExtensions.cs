@@ -1,13 +1,12 @@
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using TwinCoreTestTask.DataBase.Entities;
 using TwinCoreTestTask.Infrastructure.DTO;
 
 namespace TwinCoreTestTask.Infrastructure.Utils;
 
-public static class AutoMapperExtensions
+internal static class AutoMapperExtensions
 {
-    public static IServiceCollection AddAutoMapperServices(this IServiceCollection services)
+    internal static IServiceCollection AddAutoMapperServices(this IServiceCollection services)
     {
         services.AddAutoMapper(cfg =>
         {
