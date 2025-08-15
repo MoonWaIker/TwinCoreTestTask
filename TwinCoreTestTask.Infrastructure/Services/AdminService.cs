@@ -14,6 +14,7 @@ public class AdminService(ISendGridClient sendGrid,
     private const string _htmlBody = "<strong>Heya, you've received an invitation to the Diary Service!</strong>";
     private const string _invitationSubject = "Invitation to registration for the diary service";
 
+    // We would use the admin email that sends an invite, but registration for SendGrid is required
     private static readonly EmailAddress _senderEmail = new("muhinmihajlo40@gmail.com");
 
     // TODO Check if you can get host address via more convenient way

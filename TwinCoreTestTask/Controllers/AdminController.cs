@@ -1,11 +1,14 @@
 using System.Data;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwinCoreTestTask.Core.Enums;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Controllers;
 
 [ApiController]
+[Authorize(Roles = nameof(Roles.Admin))]
 // TODO Assign role
 [Route(_route)]
 public class AdminController(IAdminService service) : ControllerBase

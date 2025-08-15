@@ -9,6 +9,7 @@ public static class SetupAuthExtensions
     public static void ConfigureAuth(this IServiceCollection services)
     {
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
+        services.AddAuthorization();
 
         services.AddDefaultIdentity<IdentityUser>()
             .AddRoles<IdentityRole>()

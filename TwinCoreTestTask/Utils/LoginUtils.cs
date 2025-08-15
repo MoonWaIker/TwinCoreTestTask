@@ -5,25 +5,35 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TwinCoreTestTask.Utils;
 
+// TODO Make it as a service
 public static class LoginUtils
 {
-    public static Task AuthorizeUserAsync(this HttpContext context, IdentityUser<string> user)
+    public static async Task AuthorizeUserAsync(this HttpContext context,
+                                            IdentityUser user,
+                                            UserManager<IdentityUser> userManager)
     {
-        return context.SignInAsync(
+        await context.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(
-                new ClaimsIdentity(GetClaims(user), CookieAuthenticationDefaults.AuthenticationScheme)));
+                new ClaimsIdentity(await GetClaimsAsync(user, userManager), CookieAuthenticationDefaults.AuthenticationScheme)));
     }
 
-    private static List<Claim> GetClaims(IdentityUser<string> user)
+    private static async Task<IEnumerable<Claim>> GetClaimsAsync(IdentityUser user, UserManager<IdentityUser> userManager)
     {
         ArgumentNullException.ThrowIfNull(user.Email);
 
         // TODO Assign role
-        return
-        [
+        var claims = new List<Claim>
+        {
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email),
-        ];
+        };
+
+        foreach (var role in await userManager.GetRolesAsync(user))
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        return claims;
     }
 }

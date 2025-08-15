@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NoBrute;
 using TwinCoreTestTask.Infrastructure.DTO;
@@ -11,7 +12,7 @@ namespace TwinCoreTestTask.Controllers;
 
 [ApiController]
 [Route(_route)]
-public class AuthController(ILoginService loginService) : ControllerBase
+public class AuthController(ILoginService loginService, UserManager<IdentityUser> userManager) : ControllerBase
 {
     private const string _route = "api/[controller]";
     private const string _registerRoute = "{token:guid}";
@@ -46,7 +47,7 @@ public class AuthController(ILoginService loginService) : ControllerBase
             return Unauthorized();
         }
 
-        await HttpContext.AuthorizeUserAsync(user);
+        await HttpContext.AuthorizeUserAsync(user, userManager);
 
         return Ok();
     }

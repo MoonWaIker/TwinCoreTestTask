@@ -13,10 +13,11 @@ public static class ServicesProviderExtensions
 
     public static void AddServices(this IServiceCollection services)
     {
+        services.AddSingleton(TimeProvider.System);
+        services.AddScoped<UserManager<IdentityUser>>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IRecordService, RecordService>();
         services.AddScoped<ILoginService, LoginService>();
-        services.AddScoped<TimeProvider>();
         services.AddScoped<IPasswordHasher<IdentityUser>, PasswordHasher<IdentityUser>>();
         services.AddScoped<ISendGridClient>(sp =>
         {
