@@ -1,0 +1,48 @@
+using System.Net.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using TwinCoreTestTask.DataBase.Contexts;
+using TwinCoreTestTask.DataBase.Entities;
+using TwinCoreTestTask.Infrastructure.Services.Interfaces;
+
+namespace TwinCoreTestTask.Infrastructure.Services;
+
+public class AdminService(ISendGridClient sendGrid,
+                            TwinCoreDbContext dbContext,
+                            TimeProvider timeProvider) : IAdminService
+{
+    private const string _htmlBody = "<strong>Heya, you've received an invitation to the Diary Service!</strong>";
+    private const string _invitationSubject = "Invitation to registration for the diary service";
+
+    private static readonly EmailAddress _senderEmail = new("muhinmihajlo40@gmail.com");
+
+    // TODO Check if you can get host address via more convenient way
+    public async Task SendInviteAsync(MailAddress mailAddress, string handlerAddress)
+    {
+        var token = Guid.NewGuid();
+
+        await AddTokenToDbAsync(token, mailAddress.Address);
+
+        var response = await sendGrid.SendEmailAsync(MailHelper.CreateSingleEmail(_senderEmail,
+                                                                    new(mailAddress.Address),
+                                                                    _invitationSubject,
+                                                                    handlerAddress + token,
+                                                                    _htmlBody));
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    private async Task AddTokenToDbAsync(Guid token, string email)
+    {
+        dbContext.RegisterInvitations.Add(new RegisterInvitation
+        {
+            Email = email,
+            Token = token,
+            ExpiresAt = timeProvider.GetUtcNow().AddDays(1).UtcDateTime,
+        });
+        await dbContext.SaveChangesAsync();
+    }
+}
