@@ -45,6 +45,8 @@ public class LoginService(TwinCoreDbContext dbContext,
 
     private bool AreCredentialsEqual(UserCredentials credentials, IdentityUser user)
     {
+        ArgumentNullException.ThrowIfNull(user.PasswordHash);
+
         return user.Email == credentials.Email
                 && passwordHasher.VerifyHashedPassword(user, user.PasswordHash, credentials.Password) == PasswordVerificationResult.Success;
     }

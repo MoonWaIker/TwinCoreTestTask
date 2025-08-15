@@ -4,8 +4,11 @@ using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Infrastructure.Services;
 
-public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper) : IRecordService
+public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, TimeProvider timeProvider) : IRecordService
 {
+    private const int MaxRecordAgeInDays = 2;
+
+    // TODO Lack date sync
     public void Add(RecordDto record)
     {
         dbContext.Records.Add(mapper.Map(record));
@@ -15,6 +18,12 @@ public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper) : IR
 
     public void Remove(RecordDto record)
     {
+        if (timeProvider.GetUtcNow().Day - record.PublicationDate.Day >= MaxRecordAgeInDays)
+        {
+            // TODO Replace it with custom exception to handle it in Middleware correctly
+            throw new InvalidOperationException();
+        }
+
         dbContext.Records.Remove(dbContext.Records
             .Find(mapper.Map(record)) ?? throw new InvalidOperationException());
 

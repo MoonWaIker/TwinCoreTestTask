@@ -22,7 +22,7 @@ public static class LoginUtils
         // TODO Assign role
         return
         [
-            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email),
         ];
     }
