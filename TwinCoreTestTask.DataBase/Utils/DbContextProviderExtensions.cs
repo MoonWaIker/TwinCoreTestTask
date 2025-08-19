@@ -15,6 +15,8 @@ public static class DbContextProviderExtensions
             options.UseSqlServer(services
                 .BuildServiceProvider()
                 .GetRequiredService<IConfiguration>()
-                .GetConnectionString(ConnectionStringName)));
+                .GetConnectionString(ConnectionStringName)),
+                // To avoid concurrent problems
+                ServiceLifetime.Transient);
     }
 }
