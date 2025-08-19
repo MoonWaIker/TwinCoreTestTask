@@ -18,6 +18,7 @@ public static class ServicesProviderExtensions
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IRecordService, RecordService>();
         services.AddScoped<ILoginService, LoginService>();
+        services.AddScoped<IUserDeletionService, UserDeletionService>();
         services.AddScoped<IPasswordHasher<IdentityUser>, PasswordHasher<IdentityUser>>();
         services.AddScoped<ISendGridClient>(sp =>
         {
