@@ -4,16 +4,24 @@ using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Infrastructure.Services;
 
-public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, TimeProvider timeProvider) : IRecordService
+public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, TimeProvider timeProvider)
+            : IRecordService
 {
+    private const int PageSize = 10; // Assuming a default page size for pagination
     private const int MaxRecordAgeInDays = 2;
 
-    // TODO Lack date sync
     public void Add(RecordDto record)
     {
         dbContext.Records.Add(mapper.Map(record));
 
         dbContext.SaveChanges();
+    }
+
+    public IEnumerable<RecordDto> GetRecords(int page = 0)
+    {
+        return mapper.Map(dbContext.Records
+            .Skip(page * PageSize)
+            .Take(PageSize));
     }
 
     public void Remove(RecordDto record)
@@ -30,21 +38,20 @@ public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, Time
         dbContext.SaveChanges();
     }
 
-    public IEnumerable<RecordDto> Search(string contentPart)
+    public IEnumerable<RecordDto> Search(string contentPart, int page = 0)
     {
-        var records = dbContext.Records
+        return mapper.Map(dbContext.Records
             .Where(r => r.Text.Contains(contentPart, StringComparison.OrdinalIgnoreCase)
-                       || r.Title.Contains(contentPart, StringComparison.OrdinalIgnoreCase));
-
-        return mapper.Map(records);
+                       || r.Title.Contains(contentPart, StringComparison.OrdinalIgnoreCase))
+            .Skip(page * PageSize)
+            .Take(PageSize));
     }
 
-    public IEnumerable<RecordDto> Search(DateTime startDate, DateTime endDate)
+    public IEnumerable<RecordDto> Search(DateTime startDate, DateTime endDate, int page = 0)
     {
-        var records = dbContext.Records
-            .Where(r => r.PublicationDate >= startDate && r.PublicationDate <= endDate);
-
-        // Map entities to DTOs using AutoMapper
-        return mapper.Map(records);
+        return mapper.Map(dbContext.Records
+            .Where(r => r.PublicationDate >= startDate && r.PublicationDate <= endDate)
+            .Skip(page * PageSize)
+            .Take(PageSize));
     }
 }

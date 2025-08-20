@@ -7,9 +7,11 @@ public interface IRecordService
 {
     void Add(RecordDto record);
 
-    IEnumerable<RecordDto> Search(string contentPart);
+    IEnumerable<RecordDto> GetRecords(int page = 0);
 
-    IEnumerable<RecordDto> Search(DateTime startDate, DateTime endDate);
+    IEnumerable<RecordDto> Search(string contentPart, int page = 0);
+
+    IEnumerable<RecordDto> Search(DateTime startDate, DateTime endDate, int page = 0);
 
     void Remove(RecordDto record);
 }
