@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TwinCoreTestTask.Dtos.DTO;
+namespace TwinCoreTestTask.Dto.DTO;
 
 public sealed record UserRegister : UserCredentials
 {

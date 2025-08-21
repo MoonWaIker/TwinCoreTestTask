@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NoBrute;
-using TwinCoreTestTask.Dtos.DTO;
+using TwinCoreTestTask.Dto.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 using TwinCoreTestTask.Utils;
 

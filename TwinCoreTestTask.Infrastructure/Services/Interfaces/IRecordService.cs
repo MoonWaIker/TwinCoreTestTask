@@ -1,4 +1,4 @@
-using TwinCoreTestTask.Dtos.DTO;
+using TwinCoreTestTask.Dto.DTO;
 
 namespace TwinCoreTestTask.Infrastructure.Services.Interfaces;
 

@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using TwinCoreTestTask.Core.Abstractions;
 
-namespace TwinCoreTestTask.Dtos.DTO;
+namespace TwinCoreTestTask.Dto.DTO;
 
-public abstract record RecordDto : Record
+public sealed record RecordDto : Record
 {
     [Required]
     [MaxLength(50)]

@@ -1,7 +1,7 @@
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
 using TwinCoreTestTask.DataBase.Entities;
-using TwinCoreTestTask.Dtos.DTO;
+using TwinCoreTestTask.Dto.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Infrastructure.Utils;

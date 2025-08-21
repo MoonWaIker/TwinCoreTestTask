@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace TwinCoreTestTask.Dtos.DTO;
+namespace TwinCoreTestTask.Dto.DTO;
 
 public record UserCredentials
 {
