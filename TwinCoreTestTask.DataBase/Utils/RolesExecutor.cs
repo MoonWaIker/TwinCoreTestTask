@@ -14,7 +14,7 @@ public static class RolesExecutor
             var roleNumbers = Enum.GetValues<Roles>();
 
             return roleNames
-                .Zip(roleNumbers, (name, value) => new IdentityRole
+                .Zip(roleNumbers, static (name, value) => new IdentityRole
                 {
                     Id = ((int)value).ToString(CultureInfo.InvariantCulture),
                     Name = name,

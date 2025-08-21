@@ -1,29 +1,32 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using TwinCoreTestTask.DataBase.Contexts;
-using TwinCoreTestTask.Infrastructure.DTO;
+using TwinCoreTestTask.Dtos.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Infrastructure.Services;
 
 // TODO Mediator required
-public class LoginService(TwinCoreDbContext dbContext,
+public sealed class LoginService(
+    TwinCoreDbContext dbContext,
                             TimeProvider timeProvider,
                             IPasswordHasher<IdentityUser> passwordHasher) : ILoginService
 {
-    public bool TryValidateCredentials(UserCredentials credentials, [NotNullWhen(true)] out IdentityUser user)
+    public bool TryValidateCredentials(UserCredentials credentials, out IdentityUser? user)
     {
-        // TODO Maybe you can handle that by Middleware
+        // TODO Maybe you can handle it by Middleware
         user = dbContext.Users
-            .FirstOrDefault(user => AreCredentialsEqual(credentials, user));
+            .First(user => credentials.Email == user.Email);
 
-        return user != null;
+        return passwordHasher.VerifyHashedPassword(user, user.PasswordHash
+                                                         ?? string.Empty, credentials.Password) ==
+               PasswordVerificationResult.Success;
     }
 
     public void Register(Guid token, UserRegister registratingUser)
     {
-        var invitation = dbContext.RegisterInvitations.First(i => i.Token == token);
+        var invitation = dbContext.RegisterInvitations
+            .First(i => i.Token == token);
 
         if (invitation.ExpiresAt < timeProvider.GetUtcNow())
         {
@@ -41,13 +44,5 @@ public class LoginService(TwinCoreDbContext dbContext,
         dbContext.RegisterInvitations.Remove(invitation);
 
         dbContext.SaveChanges();
-    }
-
-    private bool AreCredentialsEqual(UserCredentials credentials, IdentityUser user)
-    {
-        ArgumentNullException.ThrowIfNull(user.PasswordHash);
-
-        return user.Email == credentials.Email
-                && passwordHasher.VerifyHashedPassword(user, user.PasswordHash, credentials.Password) == PasswordVerificationResult.Success;
     }
 }

@@ -1,5 +1,5 @@
 using TwinCoreTestTask.DataBase.Entities;
-using TwinCoreTestTask.Infrastructure.DTO;
+using TwinCoreTestTask.Dtos.DTO;
 
 namespace TwinCoreTestTask.Infrastructure.Services.Interfaces;
 

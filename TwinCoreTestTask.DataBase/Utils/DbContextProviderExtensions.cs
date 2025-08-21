@@ -8,7 +8,7 @@ namespace TwinCoreTestTask.DataBase.Utils;
 
 public static class DbContextProviderExtensions
 {
-    private static readonly string ConnectionStringName = ConnectionStrings.DefaultConnection.ToString();
+    private static readonly string ConnectionStringName = nameof(ConnectionStrings.DefaultConnection);
 
     public static void AddDbContext(this IServiceCollection services)
     {

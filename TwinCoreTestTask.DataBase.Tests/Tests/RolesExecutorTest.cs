@@ -16,7 +16,7 @@ public class RolesExecutorTest
             Name = "User",
             NormalizedName = "USER"
         },
-        new IdentityRole
+        new()
         {
             Id = "1",
             Name = "Admin",

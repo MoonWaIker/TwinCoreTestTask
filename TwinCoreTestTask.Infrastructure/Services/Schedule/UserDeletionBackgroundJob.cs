@@ -4,7 +4,7 @@ using TwinCoreTestTask.Infrastructure.Services.Schedule.Interfaces;
 namespace TwinCoreTestTask.Infrastructure.Services.Schedule;
 
 public sealed class UserDeletionBackgroundJob(TwinCoreDbContext dbContext, TimeProvider timeProvider)
-                    : IUserDeletionBackgroundJob
+    : IUserDeletionBackgroundJob
 {
     public void DeleteNotActualUsers()
     {

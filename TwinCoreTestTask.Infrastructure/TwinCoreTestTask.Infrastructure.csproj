@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwinCoreTestTask.DataBase\TwinCoreTestTask.DataBase.csproj" />
+      <ProjectReference Include="..\TwinCoreTestTask.Dtos\TwinCoreTestTask.Dtos.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TwinCoreTestTask.Infrastructure.DTO;
+namespace TwinCoreTestTask.Dtos.DTO;
 
-public record UserRegister : UserCredentials
+public sealed record UserRegister : UserCredentials
 {
     [Required]
     public required string UserName { get; init; }

@@ -6,11 +6,12 @@ namespace TwinCoreTestTask.Infrastructure.Utils;
 
 public static class UserManagerExtensions
 {
-    public static async Task<IdentityUser> FindByEmailAsync(this UserManager<IdentityUser> userManager, MailAddress email)
+    public static async Task<IdentityUser> FindByEmailAsync(this UserManager<IdentityUser> userManager,
+        MailAddress email)
     {
         return await userManager
-                .FindByEmailAsync(email.Address)
-                ?? throw new NotFoundException();
+                   .FindByEmailAsync(email.Address)
+               ?? throw new NotFoundException();
     }
 
     public static async Task UpdateAsync(this UserManager<IdentityUser> userManager, IdentityUser user)

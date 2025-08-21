@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TwinCoreTestTask.Infrastructure.DTO;
+using TwinCoreTestTask.Dtos.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Controllers;

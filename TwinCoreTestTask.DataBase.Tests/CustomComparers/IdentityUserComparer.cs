@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TwinCoreTestTask.DataBase.Tests.CustomComparers;
 
-public class IdentityUserComparer : IComparer, IComparer<IdentityRole>
+internal sealed class IdentityUserComparer : IComparer, IComparer<IdentityRole>
 {
-    public static readonly IdentityUserComparer Instance = new();
+    internal static readonly IdentityUserComparer Instance = new();
 
     public int Compare(object? x, object? y)
     {
@@ -36,11 +36,8 @@ public class IdentityUserComparer : IComparer, IComparer<IdentityRole>
         }
 
         var nameComparison = string.Compare(x.Name, y.Name, StringComparison.Ordinal);
-        if (nameComparison != 0)
-        {
-            return nameComparison;
-        }
-
-        return string.Compare(x.NormalizedName, y.NormalizedName, StringComparison.Ordinal);
+        return nameComparison != 0
+            ? nameComparison
+            : string.Compare(x.NormalizedName, y.NormalizedName, StringComparison.Ordinal);
     }
 }

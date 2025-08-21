@@ -5,4 +5,4 @@ namespace TwinCoreTestTask.DataBase.Entities;
 
 // TODO You need somehow save images
 [Keyless]
-public record RecordEntity : Record;
+public sealed record RecordEntity : Record;

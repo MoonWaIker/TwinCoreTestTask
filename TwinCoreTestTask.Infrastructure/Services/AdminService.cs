@@ -7,15 +7,16 @@ using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Infrastructure.Services;
 
-public class AdminService(ISendGridClient sendGrid,
+public sealed class AdminService(
+    ISendGridClient sendGrid,
                             TwinCoreDbContext dbContext,
                             TimeProvider timeProvider) : IAdminService
 {
-    private const string _htmlBody = "<strong>Heya, you've received an invitation to the Diary Service!</strong>";
-    private const string _invitationSubject = "Invitation to registration for the diary service";
+    private const string HtmlBody = "<strong>Heya, you've received an invitation to the Diary Service!</strong>";
+    private const string InvitationSubject = "Invitation to registration for the diary service";
 
     // We would use the admin email that sends an invite, but registration for SendGrid is required
-    private static readonly EmailAddress _senderEmail = new("muhinmihajlo40@gmail.com");
+    private static readonly EmailAddress SenderEmail = new("muhinmihajlo40@gmail.com");
 
     // TODO Check if you can get host address via more convenient way
     public async Task SendInviteAsync(MailAddress mailAddress, string handlerAddress)
@@ -24,11 +25,11 @@ public class AdminService(ISendGridClient sendGrid,
 
         await AddTokenToDbAsync(token, mailAddress.Address);
 
-        var response = await sendGrid.SendEmailAsync(MailHelper.CreateSingleEmail(_senderEmail,
+        var response = await sendGrid.SendEmailAsync(MailHelper.CreateSingleEmail(SenderEmail,
                                                                     new(mailAddress.Address),
-                                                                    _invitationSubject,
+                                                                    InvitationSubject,
                                                                     handlerAddress + token,
-                                                                    _htmlBody));
+                                                                    HtmlBody));
 
         if (!response.IsSuccessStatusCode)
         {

@@ -1,3 +1,4 @@
+using System.Data;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -29,10 +30,8 @@ public static class ServicesProviderExtensions
 
         AddHangfire(services, cfg);
 
-        services.AddScoped<ISendGridClient>(sp =>
-        {
-            return new SendGridClient(cfg[SendGridParameter]);
-        });
+        services.AddScoped<ISendGridClient>(_ => new SendGridClient(cfg[SendGridParameter]
+                                                                    ?? throw new NoNullAllowedException()));
 
         services.AddAutoMapperServices();
     }
@@ -48,13 +47,13 @@ public static class ServicesProviderExtensions
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
             // TODO Make so the connection string is sharable
-            .UseSqlServerStorage(configuration.GetConnectionString(ConnectionStrings.DefaultConnection.ToString()));
+            .UseSqlServerStorage(configuration.GetConnectionString(nameof(ConnectionStrings.DefaultConnection))
+                                 ?? throw new NoNullAllowedException());
         });
         services.AddHangfireServer();
 
         BackgroundJob.Schedule<IUserDeletionBackgroundJob>(
-        nameof(IUserDeletionBackgroundJob.DeleteNotActualUsers),
-        service => service.DeleteNotActualUsers(),
+            nameof(IUserDeletionBackgroundJob.DeleteNotActualUsers), static service => service.DeleteNotActualUsers(),
         TimeSpan.FromDays(1));
     }
 }

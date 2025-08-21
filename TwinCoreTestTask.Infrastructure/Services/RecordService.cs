@@ -1,14 +1,14 @@
 using TwinCoreTestTask.DataBase.Contexts;
-using TwinCoreTestTask.Infrastructure.DTO;
+using TwinCoreTestTask.Dtos.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
 
 namespace TwinCoreTestTask.Infrastructure.Services;
 
-public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, TimeProvider timeProvider)
-            : IRecordService
+public sealed class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, TimeProvider timeProvider)
+    : IRecordService
 {
-    private const int PageSize = 10; // Assuming a default page size for pagination
-    private const int MaxRecordAgeInDays = 2;
+    private const int PageSize = 5; // Assuming a default page size for pagination
+    private const int MaxRecordAgeAllowedToEditInDays = 2;
 
     public void Add(RecordDto record)
     {
@@ -26,7 +26,7 @@ public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, Time
 
     public void Remove(RecordDto record)
     {
-        if (timeProvider.GetUtcNow().Day - record.PublicationDate.Day >= MaxRecordAgeInDays)
+        if (timeProvider.GetUtcNow().Day - record.PublicationDate.Day >= MaxRecordAgeAllowedToEditInDays)
         {
             // TODO Replace it with custom exception to handle it in Middleware correctly
             throw new InvalidOperationException();
@@ -41,8 +41,8 @@ public class RecordService(TwinCoreDbContext dbContext, IAutoMapper mapper, Time
     public IEnumerable<RecordDto> Search(string contentPart, int page = 0)
     {
         return mapper.Map(dbContext.Records
-            .Where(r => r.Text.Contains(contentPart, StringComparison.OrdinalIgnoreCase)
-                       || r.Title.Contains(contentPart, StringComparison.OrdinalIgnoreCase))
+            .Where(r => r.Text.Contains(contentPart)
+                        || r.Title.Contains(contentPart))
             .Skip(page * PageSize)
             .Take(PageSize));
     }

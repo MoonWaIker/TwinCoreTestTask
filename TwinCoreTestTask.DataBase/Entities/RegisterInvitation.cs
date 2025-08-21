@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace TwinCoreTestTask.DataBase.Entities;
 
 [Keyless]
-public record RegisterInvitation
+public sealed record RegisterInvitation
 {
+    [EmailAddress]
     public required string Email { get; init; }
 
     public required Guid Token { get; init; }
