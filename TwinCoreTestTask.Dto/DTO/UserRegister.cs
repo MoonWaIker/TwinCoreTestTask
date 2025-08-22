@@ -5,5 +5,5 @@ namespace TwinCoreTestTask.Dto.DTO;
 public sealed record UserRegister : UserCredentials
 {
     [Required]
-    public required string UserName { get; init; }
+    public string UserName { get; set; } = string.Empty;
 }

@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TwinCoreTestTask.DataBase.Entities;
 
-[Keyless]
+[PrimaryKey(nameof(Token))]
+[Index(nameof(Email), IsUnique = true)]
 public sealed record RegisterInvitation
 {
+    public required Guid Token { get; init; }
+
     [EmailAddress]
     public required string Email { get; init; }
-
-    public required Guid Token { get; init; }
 
     public DateTime ExpiresAt { get; init; }
 }

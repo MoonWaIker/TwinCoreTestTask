@@ -52,14 +52,14 @@ namespace TwinCoreTestTask.DataBase.Migrations
                         new
                         {
                             Id = "0",
-                            ConcurrencyStamp = "82aa7fd1-2a7a-4fc3-97ef-8d5a472a901f",
+                            ConcurrencyStamp = "b772b64d-b3bf-43f3-8af0-86d31426fb76",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "c8273b2f-3b8a-4e65-8492-a994ac268bb1",
+                            ConcurrencyStamp = "6021240f-f480-4907-999f-bc0712659c24",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -258,15 +258,21 @@ namespace TwinCoreTestTask.DataBase.Migrations
 
             modelBuilder.Entity("TwinCoreTestTask.DataBase.Entities.RegisterInvitation", b =>
                 {
+                    b.Property<Guid>("Token")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("Token")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("Token");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("RegisterInvitations");
                 });

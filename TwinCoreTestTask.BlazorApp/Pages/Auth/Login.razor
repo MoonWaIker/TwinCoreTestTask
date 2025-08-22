@@ -1,0 +1,107 @@
+﻿@page "/Login"
+@using System.Net
+@using System.Text
+@using System.Text.Json
+@using TwinCoreTestTask.Dto.DTO
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Login</h3>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="@_credentials" OnValidSubmit="@HandleLogin">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary class="text-danger"/>
+
+                        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @_errorMessage
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <InputText id="email"
+                                       class="form-control"
+                                       @bind-Value="_credentials.Email"
+                                       placeholder="Enter your email"/>
+                            <ValidationMessage For="@(() => _credentials.Email)" class="text-danger"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <InputText id="password"
+                                       type="password"
+                                       class="form-control"
+                                       @bind-Value="_credentials.Password"
+                                       placeholder="Enter your password"/>
+                            <ValidationMessage For="@(() => _credentials.Password)" class="text-danger"/>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" disabled="@_isLoading">
+                                @if (_isLoading)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                    <span>Logging in...</span>
+                                }
+                                else
+                                {
+                                    <span>Login</span>
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private readonly UserCredentials _credentials = new();
+    private string _errorMessage = string.Empty;
+    private bool _isLoading;
+
+    private async Task HandleLogin()
+    {
+        _isLoading = true;
+        _errorMessage = string.Empty;
+
+        try
+        {
+            var json = JsonSerializer.Serialize(_credentials);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await Http.PostAsync("api/Login", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/", true);
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _errorMessage = "Invalid email or password.";
+            }
+            else
+            {
+                _errorMessage = "An error occurred during login. Please try again.";
+            }
+        }
+        catch (Exception)
+        {
+            _errorMessage = "An error occurred during login. Please try again.";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+}
