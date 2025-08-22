@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-      <ProjectReference Include="..\TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp.csproj"/>
+      <ProjectReference Include="..\TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp.csproj"/>
     <ProjectReference Include="..\TwinCoreTestTask.Infrastructure\TwinCoreTestTask.Infrastructure.csproj" />
   </ItemGroup>
 
