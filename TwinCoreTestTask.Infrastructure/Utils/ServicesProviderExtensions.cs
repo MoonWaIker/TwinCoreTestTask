@@ -1,4 +1,5 @@
 using System.Data;
+using System.Globalization;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,14 @@ namespace TwinCoreTestTask.Infrastructure.Utils;
 public static class ServicesProviderExtensions
 {
     private const string SendGridParameter = "Tokens:SendGrid";
+
+    public static void AddBackgroundJobs()
+    {
+        BackgroundJob.Schedule<IUserDeletionBackgroundJob>(
+            nameof(IUserDeletionBackgroundJob.DeleteNotActualUsers).ToLower(CultureInfo.InvariantCulture),
+            static service => service.DeleteNotActualUsers(),
+            TimeSpan.FromDays(1));
+    }
 
     public static void AddServices(this IServiceCollection services)
     {
@@ -43,17 +52,13 @@ public static class ServicesProviderExtensions
         services.AddHangfire(cfg =>
         {
             cfg
-            .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-            .UseSimpleAssemblyNameTypeSerializer()
-            .UseRecommendedSerializerSettings()
-            // TODO Make so the connection string is sharable
-            .UseSqlServerStorage(configuration.GetConnectionString(nameof(ConnectionStrings.DefaultConnection))
-                                 ?? throw new NoNullAllowedException());
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                // TODO Make so the connection string is sharable
+                .UseSqlServerStorage(configuration.GetConnectionString(nameof(ConnectionStrings.DefaultConnection))
+                                     ?? throw new NoNullAllowedException());
         });
         services.AddHangfireServer();
-
-        BackgroundJob.Schedule<IUserDeletionBackgroundJob>(
-            nameof(IUserDeletionBackgroundJob.DeleteNotActualUsers), static service => service.DeleteNotActualUsers(),
-        TimeSpan.FromDays(1));
     }
 }

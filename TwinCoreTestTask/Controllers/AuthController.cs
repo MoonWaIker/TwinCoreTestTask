@@ -14,7 +14,7 @@ namespace TwinCoreTestTask.Controllers;
 [Route(_route)]
 public class AuthController(ILoginService loginService, UserManager<IdentityUser> userManager) : ControllerBase
 {
-    private const string _route = "api/[controller]";
+    private const string _route = "api";
     private const string _registerRoute = "{token:guid}";
 
     [NoBrute]
@@ -34,7 +34,7 @@ public class AuthController(ILoginService loginService, UserManager<IdentityUser
 
     [NoBrute]
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost(nameof(Login))]
     public async Task<IActionResult> Login([FromBody] UserCredentials credentials)
     {
         if (!ModelState.IsValid)
@@ -53,7 +53,7 @@ public class AuthController(ILoginService loginService, UserManager<IdentityUser
     }
 
     [Authorize]
-    [HttpPost]
+    [HttpPost(nameof(Logout))]
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

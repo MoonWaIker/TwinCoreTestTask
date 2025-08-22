@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwinCoreTestTask.DataBase.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwinCoreTestTask.Dto", "TwinCoreTestTask.Dto\TwinCoreTestTask.Dto.csproj", "{15A0F1F8-B454-4D61-A11A-A0889B009A96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwinCoreTestTask.BlazorApp", "TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp.csproj", "{678B4C53-975A-4C88-9B80-350FA7600BBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{15A0F1F8-B454-4D61-A11A-A0889B009A96}.Release|x64.Build.0 = Release|Any CPU
 		{15A0F1F8-B454-4D61-A11A-A0889B009A96}.Release|x86.ActiveCfg = Release|Any CPU
 		{15A0F1F8-B454-4D61-A11A-A0889B009A96}.Release|x86.Build.0 = Release|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Debug|x64.Build.0 = Debug|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Debug|x86.Build.0 = Debug|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Release|x64.ActiveCfg = Release|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Release|x64.Build.0 = Release|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Release|x86.ActiveCfg = Release|Any CPU
+		{678B4C53-975A-4C88-9B80-350FA7600BBE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

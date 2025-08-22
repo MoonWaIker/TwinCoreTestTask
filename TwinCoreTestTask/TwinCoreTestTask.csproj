@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.19"/>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.19" />
     <PackageReference Include="NoBrute" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
   </ItemGroup>
 
   <ItemGroup>
+      <ProjectReference Include="..\TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp\TwinCoreTestTask.BlazorApp.csproj"/>
     <ProjectReference Include="..\TwinCoreTestTask.Infrastructure\TwinCoreTestTask.Infrastructure.csproj" />
   </ItemGroup>
 
