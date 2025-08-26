@@ -36,9 +36,9 @@ public sealed class LoginService(
         var user = new IdentityUser
         {
             Email = registratingUser.Email,
-            UserName = registratingUser.Email,
+            UserName = registratingUser.UserName,
         };
-        passwordHasher.HashPassword(user, registratingUser.Password);
+        user.PasswordHash = passwordHasher.HashPassword(user, registratingUser.Password);
         dbContext.Users.Add(user);
 
         dbContext.RegisterInvitations.Remove(invitation);

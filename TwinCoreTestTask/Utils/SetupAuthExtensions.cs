@@ -8,11 +8,19 @@ public static class SetupAuthExtensions
 {
     public static void ConfigureAuth(this IServiceCollection services)
     {
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.TimeProvider = services.BuildServiceProvider().GetRequiredService<TimeProvider>();
+            options.DataProtectionProvider?.CreateProtector(CookieAuthenticationDefaults.AuthenticationScheme);
+            options.Cookie.HttpOnly = true;
+        });
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
         services.AddAuthorization();
 
         services.AddDefaultIdentity<IdentityUser>()
             .AddRoles<IdentityRole>()
+            .AddSignInManager<SignInManager<IdentityUser>>()
             .AddEntityFrameworkStores<TwinCoreDbContext>()
             .AddDefaultTokenProviders();
     }

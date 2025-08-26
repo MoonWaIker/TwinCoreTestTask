@@ -30,6 +30,7 @@ public static class ServicesProviderExtensions
         var cfg = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
         services.AddSingleton(TimeProvider.System);
+        services.AddScoped<SignInManager<IdentityUser>>();
         services.AddScoped<UserManager<IdentityUser>>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IRecordService, RecordService>();
