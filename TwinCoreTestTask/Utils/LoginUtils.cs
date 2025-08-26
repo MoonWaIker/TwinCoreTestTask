@@ -9,8 +9,8 @@ namespace TwinCoreTestTask.Utils;
 public static class LoginUtils
 {
     public static async Task AuthorizeUserAsync(this HttpContext context,
-                                            IdentityUser user,
-                                            UserManager<IdentityUser> userManager)
+        IdentityUser user,
+        UserManager<IdentityUser> userManager)
     {
         await context.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -22,17 +22,17 @@ public static class LoginUtils
     {
         ArgumentNullException.ThrowIfNull(user.Email);
 
-        // TODO Assign role
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(ClaimTypes.Email, user.Email),
         };
 
-        foreach (var role in await userManager.GetRolesAsync(user))
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
+        claims
+            .AddRange(from role
+                    in await userManager
+                        .GetRolesAsync(user)
+                select new Claim(ClaimTypes.Role, role));
 
         return claims;
     }

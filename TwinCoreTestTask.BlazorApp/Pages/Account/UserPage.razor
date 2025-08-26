@@ -1,0 +1,33 @@
+﻿@page "/UserPage"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+@inject NavigationManager Navigation
+<h3>UserPage</h3>
+
+<AuthorizeView Roles= "Admin">
+    <Authorized>
+        <div class="nav-item px-3">
+            <span class="nav-link">Welcome, @context.User.Identity?.Name!</span>
+        </div>
+        <div class="nav-item px-3">
+            <button class="btn btn-link nav-link" @onclick="Logout">Logout</button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="login">
+                <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span> Login
+            </NavLink>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async Task Logout()
+    {
+        await Http.PostAsync("api/logout", null);
+
+        Navigation.NavigateTo("/");
+    }
+}
