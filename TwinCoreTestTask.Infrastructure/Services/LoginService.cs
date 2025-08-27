@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.CodeAnalysis;
 using TwinCoreTestTask.DataBase.Contexts;
 using TwinCoreTestTask.Dto.DTO;
 using TwinCoreTestTask.Infrastructure.Services.Interfaces;
@@ -12,7 +13,7 @@ public sealed class LoginService(
                             TimeProvider timeProvider,
                             IPasswordHasher<IdentityUser> passwordHasher) : ILoginService
 {
-    public bool TryValidateCredentials(UserCredentials credentials, out IdentityUser? user)
+    public bool TryValidateCredentials(UserCredentials credentials, [NotNullWhen(true)] out IdentityUser? user)
     {
         // TODO Maybe you can handle it by Middleware
         user = dbContext.Users
